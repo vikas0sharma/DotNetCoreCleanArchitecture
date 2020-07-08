@@ -5,6 +5,10 @@ Project to follow Domain Driven Design (DDD) and Comand and Query Responsibility
 I've taken this image from Uncle Bob's [blog](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 ![Clean Architecture](https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg)
 
+I am trying to use the best practices shared by [Microsoft](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice).
+![Microsoft](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/media/ddd-oriented-microservice/ddd-service-layer-dependencies.png)
+
+
 
 ## The domain model layer
 It is responsible for representing concepts of the business, information about the business situation, and business rules. 
