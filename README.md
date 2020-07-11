@@ -1,4 +1,5 @@
 # DotNetCoreCleanArchitecture
+![Build Status](https://github.com/vikas0sharma/DotNetCoreCleanArchitecture/workflows/Build%20Status/badge.svg)
 
 Project to follow Domain Driven Design (DDD) and Comand and Query Responsibility Segregation (CQRS) and other patterns.
 
