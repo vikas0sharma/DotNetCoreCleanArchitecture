@@ -1,5 +1,7 @@
-﻿using Retrospective.Domain.AggregatesModel.SprintAggregate;
+﻿using Microsoft.EntityFrameworkCore;
+using Retrospective.Domain.AggregatesModel.SprintAggregate;
 using Retrospective.Domain.SeedWork;
+using System.Threading.Tasks;
 
 namespace Retrospective.Infrastructure.Persistence.Repositories
 {
@@ -14,9 +16,28 @@ namespace Retrospective.Infrastructure.Persistence.Repositories
 
         public IUnitOfWork UnitOfWork => sprintContext;
 
-        public Sprint AddSprint(Sprint sprint)
+        public Sprint Add(Sprint sprint)
         {
-            return sprintContext.Sprints.Add(sprint).Entity;
+            if (sprint.IsTransient())
+            {
+                return sprintContext.Sprints.Add(sprint).Entity;
+            }
+            return sprint;
+        }
+
+        public async Task<Sprint> Get(int sprintId)
+        {
+            var sprint = await sprintContext
+                .Sprints
+                .FirstOrDefaultAsync(s => s.Id == sprintId);
+
+            return sprint;
+        }
+
+        public bool Update(Sprint sprint)
+        {
+            sprintContext.Entry(sprint).State = EntityState.Modified;
+            return true;
         }
     }
 }

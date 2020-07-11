@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Retrospective.Application.Sprint.Commands.CreateSprint
 {
-    public sealed class CreateSprintCommand : IRequest<bool>
+    public sealed class CreateSprintCommand : IRequest<SprintDto>
     {
         public IEnumerable<SprintItemDto> SprintItems { get; set; }
 

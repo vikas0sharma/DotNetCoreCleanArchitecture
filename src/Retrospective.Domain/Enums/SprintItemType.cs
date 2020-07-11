@@ -1,6 +1,6 @@
 ﻿namespace Retrospective.Domain.Enums
 {
-    public enum SprintItemTypes
+    public enum SprintItemType
     {
         Postivite = 1,
         Negative,

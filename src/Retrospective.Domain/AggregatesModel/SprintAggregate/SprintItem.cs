@@ -10,7 +10,7 @@ namespace Retrospective.Domain.AggregatesModel.SprintAggregate
         {
         }
 
-        public SprintItem(string category, SprintItemTypes sprintItemTypes)
+        public SprintItem(string category, SprintItemType sprintItemTypes)
         {
             Category = category;
             SprintItemType = sprintItemTypes;
@@ -18,9 +18,14 @@ namespace Retrospective.Domain.AggregatesModel.SprintAggregate
 
         public string Category { get; }
 
-        public SprintItemTypes SprintItemType { get; }
+        public SprintItemType SprintItemType { get; }
 
         public IReadOnlyCollection<Item> Items => items;
+
+        public void AddSprintPoint(Item item)
+        {
+            items.Add(item);
+        }
 
         private readonly List<Item> items = new List<Item>();
     }

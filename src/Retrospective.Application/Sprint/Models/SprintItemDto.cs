@@ -6,6 +6,6 @@ namespace Retrospective.Application.Sprint.Models
     {
         public string Category { get; set; }
 
-        public SprintItemTypes SprintItemType { get; set; }
+        public SprintItemType SprintItemType { get; set; }
     }
 }

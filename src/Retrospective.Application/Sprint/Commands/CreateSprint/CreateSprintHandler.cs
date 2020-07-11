@@ -1,11 +1,12 @@
 ﻿using MediatR;
+using Retrospective.Application.Sprint.Models;
 using System.Threading;
 using System.Threading.Tasks;
 using domain = Retrospective.Domain.AggregatesModel.SprintAggregate;
 
 namespace Retrospective.Application.Sprint.Commands.CreateSprint
 {
-    public class CreateSprintHandler : IRequestHandler<CreateSprintCommand, bool>
+    public class CreateSprintHandler : IRequestHandler<CreateSprintCommand, SprintDto>
     {
         private readonly domain.ISprintRepository sprintRepository;
 
@@ -14,7 +15,7 @@ namespace Retrospective.Application.Sprint.Commands.CreateSprint
             this.sprintRepository = sprintRepository;
         }
 
-        public async Task<bool> Handle(CreateSprintCommand request, CancellationToken cancellationToken)
+        public async Task<SprintDto> Handle(CreateSprintCommand request, CancellationToken cancellationToken)
         {
             var sprint = new domain.Sprint(request.UserId);
 
@@ -23,9 +24,14 @@ namespace Retrospective.Application.Sprint.Commands.CreateSprint
                 sprint.AddSprintItem(new domain.SprintItem(item.Category, item.SprintItemType));
             }
 
-            sprintRepository.AddSprint(sprint);
+            var result = sprintRepository.Add(sprint);
 
-            return await sprintRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            await sprintRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+
+            return new SprintDto
+            {
+                Id = result.Id
+            };
         }
     }
 }
