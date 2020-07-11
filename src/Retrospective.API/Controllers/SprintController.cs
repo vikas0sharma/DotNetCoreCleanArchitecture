@@ -20,14 +20,7 @@ namespace Retrospective.API.Controllers
         [HttpPost]
         public async Task Post([FromBody] CreateSprintCommand command, CancellationToken cancellationToken)
         {
-            try
-            {
-                var result = await mediator.Send(command, cancellationToken);
-            }
-            catch (System.Exception e)
-            {
-                throw;
-            }
+            var result = await mediator.Send(command, cancellationToken);
         }
     }
 }
