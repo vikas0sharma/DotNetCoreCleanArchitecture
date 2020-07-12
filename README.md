@@ -3,12 +3,12 @@
 
 Project to follow Domain Driven Design (DDD) and Comand and Query Responsibility Segregation (CQRS) and other patterns.
 
-I've taken this image from Uncle Bob's [blog](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 ![Clean Architecture](https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg)
+_Image by __Uncle Bob__ from [blog](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)_
 
-I am trying to use the best practices shared by [Microsoft](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice).
+
 ![Microsoft](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/media/ddd-oriented-microservice/ddd-service-layer-dependencies.png)
-
+_Image by __Microsoft__ from [documentation](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice)_
 
 
 ## The domain model layer
