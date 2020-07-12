@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  retrospective.api:
+    image: ${DOCKER_REGISTRY-}retrospective-api:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/Retrospective.API/Dockerfile
+    ports:
+        - "5001:80"
+    depends_on:
+      - sql-server
+      - seq
+
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2019-CU4-ubuntu-16.04
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    volumes:
+      - sqldata:/var/opt/mssql
+    ports:
+      - 1433:1433      
+
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - "5341:80"
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - ./seq-data:/data
+
+volumes:
+  sqldata:
+    external: false

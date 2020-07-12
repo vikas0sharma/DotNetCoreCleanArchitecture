@@ -15,7 +15,7 @@ namespace Retrospective.API
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.Seq("http://localhost:5341")
+                .WriteTo.Seq("http://seq:5341")
                 .CreateLogger();
 
             try
@@ -23,9 +23,9 @@ namespace Retrospective.API
                 Log.Information("starting....");
                 var host = CreateHostBuilder(args).Build();
 
-                using var scope = host.Services.CreateScope();
-                var ctx = scope.ServiceProvider.GetService<SprintContext>();
-                ctx.Database.Migrate();
+                // using var scope = host.Services.CreateScope();
+                // var ctx = scope.ServiceProvider.GetService<SprintContext>();
+                // ctx.Database.Migrate();
 
                 host.Run();
             }
