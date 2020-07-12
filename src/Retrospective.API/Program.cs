@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Retrospective.Infrastructure.Persistence;
+using Serilog;
+using System;
 
 namespace Retrospective.API
 {
@@ -10,17 +12,37 @@ namespace Retrospective.API
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.Seq("http://localhost:5341")
+                .CreateLogger();
 
-            using var scope = host.Services.CreateScope();
-            var ctx = scope.ServiceProvider.GetService<SprintContext>();
-            ctx.Database.Migrate();
+            try
+            {
+                Log.Information("starting....");
+                var host = CreateHostBuilder(args).Build();
 
-            host.Run();
+                using var scope = host.Services.CreateScope();
+                var ctx = scope.ServiceProvider.GetService<SprintContext>();
+                ctx.Database.Migrate();
+
+                host.Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "App start failed");
+                throw;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
