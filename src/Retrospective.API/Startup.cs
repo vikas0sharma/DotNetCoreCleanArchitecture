@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Retrospective.API.Extensions;
 using Retrospective.Application;
 using Retrospective.Infrastructure;
 
@@ -23,6 +24,8 @@ namespace Retrospective.API
             services.AddControllers();
             services.AddApplication(Configuration);
             services.AddInfrastructure(Configuration);
+
+            services.AddSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +37,8 @@ namespace Retrospective.API
             }
 
             app.UseHttpsRedirection();
+
+            app.AddSwagger();
 
             app.UseRouting();
 
