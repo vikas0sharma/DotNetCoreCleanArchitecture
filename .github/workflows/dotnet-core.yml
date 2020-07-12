@@ -20,6 +20,6 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet publish DotNetCleanArchitecture.sln -c Release -o out
+      run:  docker-compose up -d
     - name: Test
       run: dotnet test --no-restore --verbosity normal
