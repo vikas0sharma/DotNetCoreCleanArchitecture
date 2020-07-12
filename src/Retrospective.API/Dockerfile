@@ -7,10 +7,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/Retrospective.API/Retrospective.API.csproj", "src/Retrospective.API/"]
-RUN dotnet restore "src/Retrospective.API/Retrospective.API.csproj"
-COPY . .
-WORKDIR "/src/src/Retrospective.API"
+COPY ["src/Retrospective.API/Retrospective.API.csproj", "Retrospective.API/"]
+COPY ["src/Retrospective.Application/Retrospective.Application.csproj", "Retrospective.Application/"]
+COPY ["src/Retrospective.Domain/Retrospective.Domain.csproj", "Retrospective.Domain/"]
+COPY ["src/Retrospective.Infrastructure/Retrospective.Infrastructure.csproj", "Retrospective.Infrastructure/"]
+RUN dotnet restore "Retrospective.API/Retrospective.API.csproj"
+COPY src/. .
+WORKDIR "/src/Retrospective.API"
 RUN dotnet build "Retrospective.API.csproj" -c Release -o /app/build
 
 FROM build AS publish

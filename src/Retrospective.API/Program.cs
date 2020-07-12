@@ -23,9 +23,9 @@ namespace Retrospective.API
                 Log.Information("starting....");
                 var host = CreateHostBuilder(args).Build();
 
-                // using var scope = host.Services.CreateScope();
-                // var ctx = scope.ServiceProvider.GetService<SprintContext>();
-                // ctx.Database.Migrate();
+                using var scope = host.Services.CreateScope();
+                var ctx = scope.ServiceProvider.GetService<SprintContext>();
+                ctx.Database.Migrate();
 
                 host.Run();
             }
