@@ -29,3 +29,8 @@ It does not have state reflecting the business situation, but it can have state 
 
 ## API layer
 This contains the API that will be used by client application.
+
+## Refrences
+ - https://www.youtube.com/watch?v=5OtUm1BLmG0&t=1723s
+ - https://www.youtube.com/watch?v=orPeI28AmaM
+ - https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/ddd-oriented-microservice
