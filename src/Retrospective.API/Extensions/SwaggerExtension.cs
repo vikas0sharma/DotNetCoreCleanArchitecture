@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Retrospective.API.Filters;
 using System;
+using System.Collections.Generic;
 
 namespace Retrospective.API.Extensions
 {
@@ -24,16 +26,35 @@ namespace Retrospective.API.Extensions
                         Url = new Uri("https://twitter.com/vikas5harma"),
                     }
                 });
+
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
+                            TokenUrl = new Uri("https://localhost:5000/connect/token"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                {"retrospective", "Demo API - full access"}
+                            }
+                        }
+                    }
+                });
+                c.OperationFilter<AuthorizeCheckOperationFilter>();
             });
         }
 
-        public static void AddSwagger(this IApplicationBuilder app)
+        public static void UseAPISwagger(this IApplicationBuilder app)
         {
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Retrospective API V1");
-                c.RoutePrefix = string.Empty;
+                c.OAuthClientId("retrospective_swagger");
+                c.OAuthAppName("Retrospective Swagger");
             });
         }
     }

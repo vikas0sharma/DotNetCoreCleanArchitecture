@@ -22,6 +22,7 @@ namespace Retrospective.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddAPIAuthentication(Configuration);
             services.AddApplication(Configuration);
             services.AddInfrastructure(Configuration);
 
@@ -38,9 +39,11 @@ namespace Retrospective.API
 
             app.UseHttpsRedirection();
 
-            app.AddSwagger();
+            app.UseAPISwagger();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
