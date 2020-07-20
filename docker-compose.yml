@@ -1,7 +1,18 @@
 version: '3.4'
 
 services:
-  retrospective.api:
+  retrospective-identity:
+    image: ${DOCKER_REGISTRY-}retrospective-identity:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/Retrospective.Infrastructure.Identity/Dockerfile
+    ports:
+        - "5000:80"
+    depends_on:
+      - sql-server
+      - seq
+
+  retrospective-api:
     image: ${DOCKER_REGISTRY-}retrospective-api:${TAG:-latest}
     build:
       context: .
@@ -11,6 +22,7 @@ services:
     depends_on:
       - sql-server
       - seq
+      - retrospective-identity
 
   sql-server:
     image: mcr.microsoft.com/mssql/server
@@ -18,7 +30,9 @@ services:
       - SA_PASSWORD=Pass@word
       - ACCEPT_EULA=Y
     ports:
-      - "1433:1433"      
+      - "1433:1433"
+    volumes:
+      - ./sql-data:/data      
 
   seq:
     image: datalust/seq:latest
