@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Retrospective.API.Filters;
@@ -9,8 +10,9 @@ namespace Retrospective.API.Extensions
 {
     public static class SwaggerExtension
     {
-        public static void AddSwagger(this IServiceCollection services)
+        public static void AddSwagger(this IServiceCollection services, IConfiguration configuration)
         {
+            var identityUrl = configuration.GetValue<string>("IdentityUrl");
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -34,8 +36,8 @@ namespace Retrospective.API.Extensions
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
-                            TokenUrl = new Uri("https://localhost:5000/connect/token"),
+                            AuthorizationUrl = new Uri($"{identityUrl}/connect/authorize"),
+                            TokenUrl = new Uri($"{identityUrl}/connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
                                 {"retrospective", "Demo API - full access"}
@@ -55,6 +57,7 @@ namespace Retrospective.API.Extensions
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Retrospective API V1");
                 c.OAuthClientId("retrospective_swagger");
                 c.OAuthAppName("Retrospective Swagger");
+                c.OAuthUsePkce();
             });
         }
     }

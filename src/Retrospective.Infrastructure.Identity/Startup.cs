@@ -100,8 +100,11 @@ namespace Retrospective.Infrastructure.Identity
             {
                 serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
+                serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
+
                 if (!context.Clients.Any())
                 {
                     foreach (var client in Config.GetClients(Configuration))
@@ -125,6 +128,15 @@ namespace Retrospective.Infrastructure.Identity
                     foreach (var resource in Config.GetScopes())
                     {
                         context.ApiScopes.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.ApiResources.Any())
+                {
+                    foreach (var resource in Config.GetApiResources())
+                    {
+                        context.ApiResources.Add(resource.ToEntity());
                     }
                     context.SaveChanges();
                 }

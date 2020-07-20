@@ -110,7 +110,6 @@ namespace Retrospective.Infrastructure.Identity.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    PhoneNumber = model.User.PhoneNumber,
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Errors.Any())

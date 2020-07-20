@@ -14,6 +14,12 @@ namespace Retrospective.Infrastructure.Identity.Configuration
                 new IdentityResources.Profile(),
             };
 
+        public static IEnumerable<ApiResource> GetApiResources() =>
+            new[]
+            {
+               new ApiResource("retrospective", "API") {Scopes = {"retrospective"}}
+            };
+
         public static IEnumerable<ApiScope> GetScopes() =>
             new List<ApiScope>
             {
@@ -27,8 +33,9 @@ namespace Retrospective.Infrastructure.Identity.Configuration
                 {
                     ClientId ="retrospective_swagger",
                     ClientName ="Retrospective Swagger",
-                    AllowedGrantTypes = GrantTypes.Implicit,
-                    AllowAccessTokensViaBrowser = true,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    //AllowAccessTokensViaBrowser = true,
                     RedirectUris = { $"{configuration["Clients:RetroAPIUrl"]}/swagger/oauth2-redirect.html" },
                     PostLogoutRedirectUris = { $"{configuration["Clients:RetroAPIUrl"]}/swagger/" },
                     AllowedCorsOrigins = { configuration["Clients:RetroAPIUrl"]  },

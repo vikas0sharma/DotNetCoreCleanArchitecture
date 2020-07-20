@@ -14,6 +14,13 @@ namespace Retrospective.API.Extensions
 
             var identityUrl = configuration.GetValue<string>("IdentityUrl");
 
+            //services.AddAuthentication("Bearer")
+            //.AddIdentityServerAuthentication("Bearer", options =>
+            //{
+            //    options.ApiName = "retrospective";
+            //    options.Authority = identityUrl;
+            //    options.RequireHttpsMetadata = false;
+            //});
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
